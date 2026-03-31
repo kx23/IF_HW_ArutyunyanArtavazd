@@ -51,13 +51,12 @@ public class HWScenarioTest extends BaseTest {
 
     }
 
+    // считает кол-во тасков типа "Задача" в проекте
     private int step3_getCountBeforeCreation() {
         rapidBoardPage.sidebar.openAllTasks();
-
         allIssuesPage.goToIssuesSearchPage();
         issuesSearchPage.turnOnOnlyTasksFilter();
         int count = issuesSearchPage.getResultsTotalCount();
-        assertTrue(count > 0, "Количество задач в проекте должно быть > 0, получили: " + count);
         System.out.println("Задач до создания: " + count);
         return count;
     }

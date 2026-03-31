@@ -39,10 +39,6 @@ public class CreateIssueModalComponent {
 
 
 
-    // поле ввода внутри iframe
-    private final SelenideElement editorBody =
-            $("#tinymce");
-
     private boolean isVisualModeActive(SelenideElement button) {
         return "true".equals(button.getAttribute("aria-pressed"));
     }

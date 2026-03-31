@@ -6,7 +6,7 @@ import pages.components.HeaderComponent;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class IssuesSearchPage extends BasePage<IssueDetailsPage> {
+public class IssuesSearchPage extends BasePage<IssuesSearchPage> {
 
 
     public final HeaderComponent header = new HeaderComponent();
@@ -43,11 +43,7 @@ public class IssuesSearchPage extends BasePage<IssueDetailsPage> {
         refreshButton.shouldBe(visible).click();
         $x("//div[@class='issue-table-wrapper']").shouldBe(visible);
 
-        // при использовании локатора, после перезагрузки возвращается необновленное значение
-        // пока оставил так, т.к. пока не нашел хорошего решения
-
-        //String text = resultsTotalCount.shouldBe(Condition.visible).getText();
-        String text = $x("//span[@class='results-count-total results-count-link']").shouldBe(visible).getText();
+        String text = resultsTotalCount.shouldBe(visible).getText();
 
         return Integer.parseInt(text);
     }

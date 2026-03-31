@@ -36,17 +36,6 @@ public class AllIssuesPage extends BasePage<AllIssuesPage> {
 
 
 
-    public int getTotalIssuesCount() {
-
-        // при использовании локатора, после перезагрузки возвращается необновленное значение
-        // пока оставил так, т.к. пока не нашел хорошего решения
-
-        //String text = issueCounter.shouldBe(Condition.visible).getText();
-        String text = $x("//div[@class='issue-tools']//div[@class='pager']//span").shouldBe(visible).getText();
-
-        return Integer.parseInt(text.replaceAll(".*из\\s*(\\d+).*", "$1"));
-    }
-
     public void goToIssuesSearchPage()
     {
         issuesSearchPageLink.shouldBe(visible).click();

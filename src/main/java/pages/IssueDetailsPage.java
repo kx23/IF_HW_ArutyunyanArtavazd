@@ -14,8 +14,6 @@ public class IssueDetailsPage extends BasePage<IssueDetailsPage> {
 
     private final SelenideElement issueTitle =
             $x("//*[@id='summary-val']").as("Заголовок задачи");
-    private final SelenideElement issueDetailsLoader =
-            $x("//div[@class='issue-container skinny loading']").as("Лоадер при обновлении задачи");
 
     private final SelenideElement issueSuccessfulChangeMessage =
             $x("//div[@class='aui-message closeable aui-message-success aui-will-close']").as("Сообщение о изменении задачи");
@@ -42,7 +40,9 @@ public class IssueDetailsPage extends BasePage<IssueDetailsPage> {
 
     @Override
     protected String getPageUrl() {
-        return "/browse"+issueId.getText();
+
+        String _issueId=issueId.shouldBe(visible).getText();
+        return "/browse"+_issueId;
     }
 
     public IssueDetailsPage isPageOpened() {
