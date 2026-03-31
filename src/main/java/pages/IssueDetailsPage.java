@@ -42,7 +42,7 @@ public class IssueDetailsPage extends BasePage<IssueDetailsPage> {
     protected String getPageUrl() {
 
         String _issueId=issueId.shouldBe(visible).getText();
-        return "/browse"+_issueId;
+        return "/browse/"+_issueId;
     }
 
     public IssueDetailsPage isPageOpened() {

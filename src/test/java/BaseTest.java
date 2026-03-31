@@ -20,9 +20,8 @@ public class BaseTest {
     {
 
         Selenide.open();
-        Selenide.clearBrowserCookies();
-        System.out.println(Configuration.pageLoadStrategy);
-        System.out.println("--------");
+        //System.out.println(Configuration.pageLoadStrategy);
+        //System.out.println("--------");
         WebDriverRunner.getWebDriver().manage().window().maximize();
     }
 
