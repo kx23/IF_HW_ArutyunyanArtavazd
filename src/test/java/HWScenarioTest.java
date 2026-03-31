@@ -1,0 +1,204 @@
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
+import data.TestData;
+import models.enums.IssueStatus;
+import org.junit.jupiter.api.*;
+import pages.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class HWScenarioTest extends BaseTest {
+
+    private final LoginPage loginPage = new LoginPage();
+    private final BrowseProjectsPage browseProjectsPage = new BrowseProjectsPage();
+    private final RapidBoardPage rapidBoardPage = new RapidBoardPage();
+    private final AllIssuesPage allIssuesPage = new AllIssuesPage(TestData.PROJECT_NAME);
+    private final IssueDetailsPage issueDetailsPage = new IssueDetailsPage();
+    private final IssuesSearchPage issuesSearchPage= new IssuesSearchPage();
+
+    @BeforeEach
+    public void setUp() {
+        super.setUp();
+    }
+
+
+
+    private void step1_login() {
+        loginPage.open();
+        loginPage.login(TestData.VALID_USER, TestData.VALID_PASS);
+
+        // assert через shouldBe внутри компонента
+        // rapidBoardPage.header.shouldBeLoggedIn();
+
+        // явный assert по условию дз
+        assertEquals(
+                TestData.VALID_USER,
+                rapidBoardPage.header.getLoggedInUser()
+        );
+    }
+
+    private void step2_navigateToProject() {
+        rapidBoardPage.header.goToAllProjects();
+        browseProjectsPage.isPageOpened();
+        browseProjectsPage
+                .searchProject(TestData.PROJECT_NAME)
+                .navigateToProject(TestData.PROJECT_NAME);
+        assertTrue(
+                WebDriverRunner.url().contains(TestData.PROJECT_NAME.toUpperCase()),
+                "URL должен содержать ключ проекта: " + TestData.PROJECT_NAME.toUpperCase()
+        );
+
+    }
+
+    private int step3_getCountBeforeCreation() {
+        rapidBoardPage.sidebar.openAllTasks();
+
+        allIssuesPage.goToIssuesSearchPage();
+        issuesSearchPage.turnOnOnlyTasksFilter();
+        int count = issuesSearchPage.getResultsTotalCount();
+        assertTrue(count > 0, "Количество задач в проекте должно быть > 0, получили: " + count);
+        System.out.println("Задач до создания: " + count);
+        return count;
+    }
+
+    private void step3_createIssueAndCheckCounter(int countBefore) {
+
+        issuesSearchPage.header.clickCreateIssue()
+                .selectIssueType(TestData.ISSUE_TYPE_TASK)
+                .fillSummary(TestData.NEW_TASK_SUMMARY_TEXT)
+                .fillDescription(TestData.NEW_TASK_DESCRIPTION_TEXT)
+                .submit();
+
+        int countAfter = issuesSearchPage.getResultsTotalCount();
+        System.out.println("Задач после создания: " + countAfter);
+
+        assertEquals(
+                countBefore + 1, countAfter,
+                "Счётчик должен увеличиться на 1: ожидали " + (countBefore + 1) + ", получили " + countAfter
+        );
+    }
+
+    private void step4_checkTestTaskDetails() {
+        issuesSearchPage.header.searchIssue(TestData.TEST_TASK_NAME);
+        issuesSearchPage.header.openIssueFromSearch(TestData.TEST_TASK_NAME);
+
+        issueDetailsPage.isPageOpened();
+
+        //issueDetailsPage.checkStatus(TestData.TEST_TASK_STATUS);
+        //issueDetailsPage.checkVersion(TestData.TEST_TASK_VERSION);
+
+        assertEquals(TestData.TEST_TASK_STATUS,issueDetailsPage.getStatusText());
+        assertEquals(TestData.TEST_TASK_VERSION,issueDetailsPage.getVersionText());
+
+    }
+
+    private void step5_createBugAndTransitionToClose() {
+
+
+        issueDetailsPage.header.clickCreateIssue()
+                .selectIssueType(TestData.ISSUE_TYPE_BUG)
+                .ensureDescriptionVisualMode()
+                .ensureEnvironmentVisualMode()
+                .fillSummary(TestData.NEW_TASK_SUMMARY_TEXT)
+                .fillDescription(TestData.NEW_TASK_DESCRIPTION_TEXT)
+                .fillEnvironment(TestData.NEW_TASK_ENVIRONMENT_TEXT)
+                .submit();
+
+
+        String newIssueId= issueDetailsPage.header.getSuccessfulCreatedIssueID();
+
+        issueDetailsPage.header.goToCreatedIssuePage();
+
+
+        assertTrue(
+                WebDriverRunner.url().contains(newIssueId),
+                "Url не соодержит id созданной задачи"
+        );
+
+
+        //issuePage.isPageOpened();
+
+        assertEquals(IssueStatus.TO_DO.getValue(),issueDetailsPage.getStatusText());
+
+        // изменение статуса на в В РАБОТЕ
+        issueDetailsPage
+                .issueSuccessfulChangeMessageIsNotVisible()
+                .changeStatusToInProgress()
+                .issueSuccessfulChangeMessageIsVisible();
+
+        assertEquals(IssueStatus.IN_PROGRESS.getValue(),issueDetailsPage.getStatusText());
+        // проверка статуса через метод в PageObject. В дз требуется использовать явный assert
+        //issueDetailsPage.checkStatus(IssueStatus.IN_PROGRESS.getValue());
+
+
+        issueDetailsPage
+                .issueSuccessfulChangeMessageIsNotVisible()
+                .changeStatusToDone()
+                .issueSuccessfulChangeMessageIsVisible();;
+        assertEquals(IssueStatus.DONE.getValue(),issueDetailsPage.getStatusText());
+
+        //issueDetailsPage.checkStatus(IssueStatus.DONE.getValue());
+
+
+    }
+
+    // ================================================================
+    // Тесты
+    // ================================================================
+
+    @Test
+    @Order(1)
+    @DisplayName("1. Авторизация в edujira.ifellow.ru")
+    void test1_login() {
+        step1_login();
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("2. Авторизация + переход в проект Test")
+    void test2_navigateToProject() {
+        step1_login();
+        step2_navigateToProject();
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("3. Авторизация + проект + проверка счётчика задач до и после создания")
+    void test3_checkIssueCounter() {
+        step1_login();
+        step2_navigateToProject();
+
+        int countBefore = step3_getCountBeforeCreation();
+
+        step3_createIssueAndCheckCounter(countBefore);
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("4. Авторизация + проект + счётчик + проверка статуса и версии TestSeleniumATHomework")
+    void test4_checkIssueDetails() {
+        step1_login();
+        step2_navigateToProject();
+
+        int countBefore = step3_getCountBeforeCreation();
+        step3_createIssueAndCheckCounter(countBefore);
+
+        step4_checkTestTaskDetails();
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("5. Полный сценарий: авторизация + проект + счётчик + детали задачи + создание бага + переход по статусам")
+    void test5_fullScenario() {
+        step1_login();
+        step2_navigateToProject();
+
+        int countBefore = step3_getCountBeforeCreation();
+        step3_createIssueAndCheckCounter(countBefore);
+
+        step4_checkTestTaskDetails();
+
+        step5_createBugAndTransitionToClose();
+    }
+}
