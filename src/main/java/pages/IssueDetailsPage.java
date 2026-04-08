@@ -4,7 +4,6 @@ import com.codeborne.selenide.SelenideElement;
 import pages.components.HeaderComponent;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class IssueDetailsPage extends BasePage<IssueDetailsPage> {
@@ -50,16 +49,12 @@ public class IssueDetailsPage extends BasePage<IssueDetailsPage> {
         return this;
     }
 
-    public IssueDetailsPage checkStatus(String expectedStatus) {
-        issueStatus.shouldBe(visible).shouldHave(text(expectedStatus));
-        return this;
-    }
-
     public IssueDetailsPage issueSuccessfulChangeMessageIsVisible()
     {
         issueSuccessfulChangeMessage.shouldBe(visible);
         return this;
     }
+
     public IssueDetailsPage issueSuccessfulChangeMessageIsNotVisible()
     {
         issueSuccessfulChangeMessage.shouldNotBe(visible);
@@ -69,11 +64,6 @@ public class IssueDetailsPage extends BasePage<IssueDetailsPage> {
 
     public String getStatusText() {
         return issueStatus.shouldBe(visible).getText();
-    }
-
-    public IssueDetailsPage checkVersion(String expectedVersion) {
-        issueVersion.shouldBe(visible).shouldHave(text(expectedVersion));
-        return this;
     }
 
     public String getVersionText() {

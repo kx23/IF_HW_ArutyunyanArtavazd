@@ -1,8 +1,8 @@
 package data;
 
 public class TestData {
-    public static final String VALID_USER = "AT1";
-    public static final String VALID_PASS = "Qwerty123";
+    public static final String VALID_USER = ConfigReader.get("user.login");
+    public static final String VALID_PASS  = ConfigReader.get("user.password");
     public static final String PROJECT_NAME = "Test";
     public static final String TEST_TASK_NAME= "TestSeleniumATHomework";
     public static final String TEST_TASK_STATUS= "СДЕЛАТЬ";

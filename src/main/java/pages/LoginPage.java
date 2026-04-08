@@ -17,11 +17,6 @@ public class LoginPage extends BasePage<LoginPage> {
         return "/login.jsp";
     }
 
-    public LoginPage isPageOpened() {
-        usernameInput.shouldBe(visible);
-        return this;
-    }
-
     public LoginPage enterUsername(String username) {
         usernameInput.setValue(username);
         return this;

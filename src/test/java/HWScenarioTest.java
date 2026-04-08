@@ -1,14 +1,18 @@
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import data.TestData;
 import models.enums.IssueStatus;
 import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pages.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HWScenarioTest extends BaseTest {
+    private static final Logger log = LoggerFactory.getLogger(HWScenarioTest.class);
+
+
 
     private final LoginPage loginPage = new LoginPage();
     private final BrowseProjectsPage browseProjectsPage = new BrowseProjectsPage();
@@ -22,16 +26,10 @@ public class HWScenarioTest extends BaseTest {
         super.setUp();
     }
 
-
-
     private void step1_login() {
         loginPage.open();
         loginPage.login(TestData.VALID_USER, TestData.VALID_PASS);
 
-        // assert через shouldBe внутри компонента
-        // rapidBoardPage.header.shouldBeLoggedIn();
-
-        // явный assert по условию дз
         assertEquals(
                 TestData.VALID_USER,
                 rapidBoardPage.header.getLoggedInUser()
@@ -51,13 +49,12 @@ public class HWScenarioTest extends BaseTest {
 
     }
 
-    // считает кол-во тасков типа "Задача" в проекте
     private int step3_getCountBeforeCreation() {
         rapidBoardPage.sidebar.openAllTasks();
         allIssuesPage.goToIssuesSearchPage();
         issuesSearchPage.turnOnOnlyTasksFilter();
         int count = issuesSearchPage.getResultsTotalCount();
-        System.out.println("Задач до создания: " + count);
+        log.info("Задач до создания: {}", count);
         return count;
     }
 
@@ -70,7 +67,7 @@ public class HWScenarioTest extends BaseTest {
                 .submit();
 
         int countAfter = issuesSearchPage.getResultsTotalCount();
-        System.out.println("Задач после создания: " + countAfter);
+        log.info("Задач после создания: {}", countAfter);
 
         assertEquals(
                 countBefore + 1, countAfter,
@@ -83,9 +80,6 @@ public class HWScenarioTest extends BaseTest {
         issuesSearchPage.header.openIssueFromSearch(TestData.TEST_TASK_NAME);
 
         issueDetailsPage.isPageOpened();
-
-        //issueDetailsPage.checkStatus(TestData.TEST_TASK_STATUS);
-        //issueDetailsPage.checkVersion(TestData.TEST_TASK_VERSION);
 
         assertEquals(TestData.TEST_TASK_STATUS,issueDetailsPage.getStatusText());
         assertEquals(TestData.TEST_TASK_VERSION,issueDetailsPage.getVersionText());
@@ -109,27 +103,19 @@ public class HWScenarioTest extends BaseTest {
 
         issueDetailsPage.header.goToCreatedIssuePage();
 
-
         assertTrue(
                 WebDriverRunner.url().contains(newIssueId),
                 "Url не соодержит id созданной задачи"
         );
 
-
-        //issuePage.isPageOpened();
-
         assertEquals(IssueStatus.TO_DO.getValue(),issueDetailsPage.getStatusText());
 
-        // изменение статуса на в В РАБОТЕ
         issueDetailsPage
                 .issueSuccessfulChangeMessageIsNotVisible()
                 .changeStatusToInProgress()
                 .issueSuccessfulChangeMessageIsVisible();
 
         assertEquals(IssueStatus.IN_PROGRESS.getValue(),issueDetailsPage.getStatusText());
-        // проверка статуса через метод в PageObject. В дз требуется использовать явный assert
-        //issueDetailsPage.checkStatus(IssueStatus.IN_PROGRESS.getValue());
-
 
         issueDetailsPage
                 .issueSuccessfulChangeMessageIsNotVisible()
@@ -137,24 +123,15 @@ public class HWScenarioTest extends BaseTest {
                 .issueSuccessfulChangeMessageIsVisible();;
         assertEquals(IssueStatus.DONE.getValue(),issueDetailsPage.getStatusText());
 
-        //issueDetailsPage.checkStatus(IssueStatus.DONE.getValue());
-
-
     }
 
-    // ================================================================
-    // Тесты
-    // ================================================================
-
     @Test
-    @Order(1)
     @DisplayName("1. Авторизация в edujira.ifellow.ru")
     void test1_login() {
         step1_login();
     }
 
     @Test
-    @Order(2)
     @DisplayName("2. Авторизация + переход в проект Test")
     void test2_navigateToProject() {
         step1_login();
@@ -162,7 +139,6 @@ public class HWScenarioTest extends BaseTest {
     }
 
     @Test
-    @Order(3)
     @DisplayName("3. Авторизация + проект + проверка счётчика задач до и после создания")
     void test3_checkIssueCounter() {
         step1_login();
@@ -174,7 +150,6 @@ public class HWScenarioTest extends BaseTest {
     }
 
     @Test
-    @Order(4)
     @DisplayName("4. Авторизация + проект + счётчик + проверка статуса и версии TestSeleniumATHomework")
     void test4_checkIssueDetails() {
         step1_login();
@@ -187,7 +162,6 @@ public class HWScenarioTest extends BaseTest {
     }
 
     @Test
-    @Order(5)
     @DisplayName("5. Полный сценарий: авторизация + проект + счётчик + детали задачи + создание бага + переход по статусам")
     void test5_fullScenario() {
         step1_login();

@@ -17,8 +17,6 @@ public class IssuesSearchPage extends BasePage<IssuesSearchPage> {
     private final SelenideElement issueTaskTypeFilterCheckbox =
             $x("//ul[@id='стандартные-задачи']//label[@data-descriptor-title='Задача']");
 
-    private final SelenideElement issuesTable =$x("//div[@class='issue-table-wrapper']");
-
     private final SelenideElement refreshButton=
             $x("//a[@class='refresh-table']").as("Кнопка обновления таблицы");
 

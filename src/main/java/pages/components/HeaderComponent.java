@@ -16,7 +16,6 @@ public class HeaderComponent {
     private final SelenideElement userAvatar =
             $x("//a[@id='header-details-user-fullname']").as("Аватар пользователя");
 
-
     private final SelenideElement createIssueButton=
             $x("//a[@id='create_link']").as("Кнопка создания задачи");
 
@@ -33,14 +32,9 @@ public class HeaderComponent {
     private final SelenideElement successfulCreatedIssueLink=
             $x("//a[@class='issue-created-key issue-link']");
 
-    public HeaderComponent shouldBeLoggedIn() {
-        userAvatar.shouldBe(visible);
-        return this;
-    }
     public String getLoggedInUser() {
         return userAvatar.getAttribute("data-username");
     }
-
 
     public void goToAllProjects() {
         projectsListButton.click();

@@ -14,14 +14,6 @@ public class AllIssuesPage extends BasePage<AllIssuesPage> {
 
     private final String projectKey;
 
-    private final SelenideElement issuesList =
-            $x("//table[@id='issuetable']").as("Таблица задач");
-
-    private SelenideElement issueCounter =
-            $x("//div[@class='issue-tools']//div[@class='pager']//span").as("Счётчик задач");
-    private final SelenideElement refreshButton=
-            $x("//*[@class='aui-button aui-button-subtle refresh-table']").as("Кнопка обновления");
-
     private final SelenideElement issuesSearchPageLink=
             $x("//div[@id='full-issue-navigator']/a").as("Ссылка на страницу с задачами и фильтрами");
 
@@ -33,8 +25,6 @@ public class AllIssuesPage extends BasePage<AllIssuesPage> {
     protected String getPageUrl() {
         return "/projects/" + projectKey.toUpperCase() + "/issues";
     }
-
-
 
     public void goToIssuesSearchPage()
     {

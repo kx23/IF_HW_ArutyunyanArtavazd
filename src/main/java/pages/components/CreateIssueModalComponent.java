@@ -28,7 +28,6 @@ public class CreateIssueModalComponent {
             $x("//input[@id='create-issue-submit']")
                     .as("Кнопка создания задачи");
 
-    // iframe TinyMCE
     private final SelenideElement descriptionIframe =
             $x("//label[text()='Описание']/../descendant::iframe")
                     .as("Iframe описания");

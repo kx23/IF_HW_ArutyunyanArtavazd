@@ -20,8 +20,6 @@ public class BaseTest {
     {
 
         Selenide.open();
-        //System.out.println(Configuration.pageLoadStrategy);
-        //System.out.println("--------");
         WebDriverRunner.getWebDriver().manage().window().maximize();
     }
 
