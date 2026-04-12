@@ -1,12 +1,15 @@
+package hooks;
+
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.BeforeEach;
+import io.cucumber.java.BeforeAll;
 import org.openqa.selenium.chrome.ChromeOptions;
+import utils.ScenarioContext;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 
-public class BaseTest {
+public class Hooks {
 
     @BeforeAll
     public static void setUpAll() {
@@ -15,17 +18,15 @@ public class BaseTest {
         Configuration.browserCapabilities = options;
     }
 
-    @BeforeEach
-    public void setUp()
-    {
-
+    @Before
+    public void setUp() {
         Selenide.open();
         WebDriverRunner.getWebDriver().manage().window().maximize();
     }
 
-    @AfterEach
-    public void tearUp()
-    {
+    @After
+    public void tearDown() {
+        ScenarioContext.reset();
         Selenide.closeWebDriver();
     }
 }
