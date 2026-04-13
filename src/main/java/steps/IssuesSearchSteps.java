@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class IssuesSearchSteps {
     private static final Logger log = LoggerFactory.getLogger(IssuesSearchSteps.class);
 
-    private final AllIssuesPage    allIssuesPage    = new AllIssuesPage(TestData.PROJECT_NAME);
+    private final AllIssuesPage allIssuesPage = new AllIssuesPage(TestData.PROJECT_NAME);
     private final IssuesSearchPage issuesSearchPage = new IssuesSearchPage();
 
     @И("пользователь открывает все задачи через сайдбар")

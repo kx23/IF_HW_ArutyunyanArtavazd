@@ -9,7 +9,7 @@ import pages.RapidBoardPage;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BrowseProjectsSteps {
-    private final RapidBoardPage     rapidBoardPage     = new RapidBoardPage();
+    private final RapidBoardPage rapidBoardPage = new RapidBoardPage();
     private final BrowseProjectsPage browseProjectsPage = new BrowseProjectsPage();
 
     @Когда("пользователь переходит ко всем проектам")
