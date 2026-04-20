@@ -12,7 +12,6 @@ public class AuthSteps {
     private static final AuthApi authApi = new AuthApi();
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    // Читает credentials.json из classpath
     public Credentials readCredentials() {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream("credentials.json")) {
             if (is == null) throw new IllegalStateException("credentials.json not found in resources");

@@ -22,6 +22,10 @@ public class AuthTest {
     private static final Credentials credentials = authSteps.readCredentials();
     private static String token;
 
+    // в прошлый раз вы сказали, что Order лучше не использовать,
+    // но конкретно в этом кейсе он нужен, т.к. если не зарегать юзера,
+    // то тест с логином зафейлится
+
     @Test
     @Order(1)
     @DisplayName("Register - success")
