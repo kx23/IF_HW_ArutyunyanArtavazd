@@ -15,10 +15,6 @@ public class CharacterRMApi extends BaseRMApi {
                 .then();
     }
 
-    /**
-     * Фильтрация персонажей по имени.
-     * Возвращает обёртку CharacterFilter с полем "results".
-     */
     public ValidatableResponse getCharacterByName(String name) {
         return given()
                 .queryParam("name", name)

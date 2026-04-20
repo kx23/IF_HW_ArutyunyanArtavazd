@@ -19,22 +19,22 @@ public class ConfigReader {
 
             if (input == null) {
                 throw new IllegalStateException(
-                        "Файл config.properties не найден. "
+                        "File config.properties not found in classpath."
                 );
             }
 
             properties.load(input);
-            log.info("config.properties успешно загружен");
+            log.info("config.properties successfully loaded.");
 
         } catch (IOException e) {
-            throw new IllegalStateException("Ошибка при чтении config.properties", e);
+            throw new IllegalStateException("Error reading config.properties file", e);
         }
     }
 
     public static String get(String key) {
         String value = properties.getProperty(key);
         if (value == null) {
-            throw new IllegalArgumentException("Ключ не найден в config.properties: " + key);
+            throw new IllegalArgumentException("Key not found in config.properties: " + key);
         }
         return value;
     }
