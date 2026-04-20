@@ -1,7 +1,7 @@
-package steps;
+package steps.rickAndMorty;
 
 import api.rickAndMorty.LocationRMApi;
-import dto.LocationDto;
+import dto.rickAndMorty.LocationDto;
 import org.apache.http.HttpStatus;
 
 public class LocationSteps {

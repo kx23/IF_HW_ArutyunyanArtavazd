@@ -1,11 +1,12 @@
-package dto;
+package dto.rickAndMorty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LocationInfo {
-    private String name;
-    private String url;
+public class CharacterFilter {
+    private List<Character> results;
 }

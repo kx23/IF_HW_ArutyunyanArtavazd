@@ -1,8 +1,8 @@
-package steps;
+package steps.rickAndMorty;
 
 import api.rickAndMorty.CharacterRMApi;
-import dto.Character;
-import dto.CharacterFilter;
+import dto.rickAndMorty.Character;
+import dto.rickAndMorty.CharacterFilter;
 import org.apache.http.HttpStatus;
 
 public class CharacterSteps {

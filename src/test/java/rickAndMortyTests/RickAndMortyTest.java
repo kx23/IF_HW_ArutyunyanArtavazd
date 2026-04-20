@@ -1,14 +1,14 @@
 package rickAndMortyTests;
 
-import dto.Character;
-import dto.CharacterFilter;
-import dto.Episode;
+import dto.rickAndMorty.Character;
+import dto.rickAndMorty.CharacterFilter;
+import dto.rickAndMorty.Episode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import steps.CharacterSteps;
-import steps.EpisodeSteps;
+import steps.rickAndMorty.CharacterSteps;
+import steps.rickAndMorty.EpisodeSteps;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package steps;
+package steps.rickAndMorty;
 
 import api.rickAndMorty.EpisodeRMApi;
-import dto.Episode;
+import dto.rickAndMorty.Episode;
 import org.apache.http.HttpStatus;
 
 public class EpisodeSteps {
