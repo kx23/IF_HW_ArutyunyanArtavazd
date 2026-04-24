@@ -9,6 +9,9 @@ import java.io.InputStream;
 
 public class AuthSteps {
 
+
+    private static final String REGISTER_URL = "/register";
+    private static final String LOGIN_URL = "/login";
     private static final AuthApi authApi = new AuthApi();
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -22,25 +25,26 @@ public class AuthSteps {
     }
 
     public ValidatableResponse register(Credentials credentials) {
-        return authApi.register(credentials);
+        return authApi.postUserCredentialsToUrl(credentials,REGISTER_URL);
+        //return authApi.register(credentials);
     }
 
     public ValidatableResponse loginWithUnknownUser(Credentials credentials) {
         Credentials modified = new Credentials();
         modified.setUsername("unknown_user_xzxz");
         modified.setPassword(credentials.getPassword());
-        return authApi.login(modified);
+        return authApi.postUserCredentialsToUrl(modified,LOGIN_URL);
     }
 
     public ValidatableResponse loginWithWrongPassword(Credentials credentials) {
         Credentials modified = new Credentials();
         modified.setUsername(credentials.getUsername());
         modified.setPassword("wrongpassword999");
-        return authApi.login(modified);
+        return authApi.postUserCredentialsToUrl(modified,LOGIN_URL);
     }
 
     public ValidatableResponse loginSuccess(Credentials credentials) {
-        return authApi.login(credentials);
+        return authApi.postUserCredentialsToUrl(credentials,LOGIN_URL);
     }
 
     public ValidatableResponse logoutWithInvalidToken() {

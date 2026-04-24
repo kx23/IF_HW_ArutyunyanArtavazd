@@ -3,7 +3,6 @@ package ifellowTests;
 import dto.ifellow.Credentials;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
@@ -22,12 +21,7 @@ public class AuthTest {
     private static final Credentials credentials = authSteps.readCredentials();
     private static String token;
 
-    // в прошлый раз вы сказали, что Order лучше не использовать,
-    // но конкретно в этом кейсе он нужен, т.к. если не зарегать юзера,
-    // то тест с логином зафейлится
-
     @Test
-    @Order(1)
     @DisplayName("Register - success")
     void registerTest() {
         String body = authSteps.register(credentials)
@@ -39,7 +33,6 @@ public class AuthTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("Login - user not found")
     void loginUserNotFoundTest() {
         String body = authSteps.loginWithUnknownUser(credentials)
@@ -51,9 +44,10 @@ public class AuthTest {
     }
 
     @Test
-    @Order(3)
     @DisplayName("Login - wrong password")
     void loginWrongPasswordTest() {
+        registerTest();
+
         String body = authSteps.loginWithWrongPassword(credentials)
                 .statusCode(401)
                 .extract().asString();
@@ -63,9 +57,10 @@ public class AuthTest {
     }
 
     @Test
-    @Order(4)
     @DisplayName("Login - success, token received")
     void loginSuccessTest() {
+        registerTest();
+
         String body = authSteps.loginSuccess(credentials)
                 .statusCode(200)
                 .extract().asString();
@@ -78,7 +73,6 @@ public class AuthTest {
     }
 
     @Test
-    @Order(5)
     @DisplayName("Logout - unauthorized (invalid token)")
     void logoutUnauthorizedTest() {
         String body = authSteps.logoutWithInvalidToken()
@@ -90,9 +84,12 @@ public class AuthTest {
     }
 
     @Test
-    @Order(6)
     @DisplayName("Logout - success")
     void logoutSuccessTest() {
+        registerTest();
+
+        loginSuccessTest();
+
         String body = authSteps.logoutSuccess(token)
                 .statusCode(200)
                 .extract().asString();

@@ -1,12 +1,12 @@
 package api.ifellow;
 
 import api.Specifications;
-import data.ConfigReader;
+import config.ConfigProvider;
 import io.restassured.RestAssured;
 
 public class BaseIfellowApi {
     public BaseIfellowApi() {
-        RestAssured.requestSpecification = Specifications.baseRequestSpec(ConfigReader.get("ifellow.base_url"));
+        RestAssured.requestSpecification = Specifications.baseRequestSpec(ConfigProvider.config.ifellowBaseUrl());
         RestAssured.responseSpecification = Specifications.baseResponseSpec();
     }
 }

@@ -7,23 +7,13 @@ import static io.restassured.RestAssured.given;
 
 public class AuthApi extends BaseIfellowApi {
 
-    private static final String REGISTER = "/register";
-    private static final String LOGIN = "/login";
     private static final String LOGOUT = "/logout";
 
-    public ValidatableResponse register(Credentials credentials) {
+    public ValidatableResponse postUserCredentialsToUrl(Credentials credentials, String url) {
         return given()
                 .body(credentials)
                 .when()
-                .post(REGISTER)
-                .then();
-    }
-
-    public ValidatableResponse login(Credentials credentials) {
-        return given()
-                .body(credentials)
-                .when()
-                .post(LOGIN)
+                .post(url)
                 .then();
     }
 

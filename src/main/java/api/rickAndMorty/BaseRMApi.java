@@ -1,14 +1,13 @@
 package api.rickAndMorty;
 
 import api.Specifications;
-import data.ConfigReader;
+import config.ConfigProvider;
 import io.restassured.RestAssured;
-import io.restassured.builder.ResponseSpecBuilder;
 
 public class BaseRMApi {
     public BaseRMApi()
     {
-        RestAssured.requestSpecification= Specifications.baseRequestSpec(ConfigReader.get("rickandmorty.base_url"));
+        RestAssured.requestSpecification= Specifications.baseRequestSpec(ConfigProvider.config.rickAndMortyBaseUrl());
         RestAssured.responseSpecification= Specifications.baseResponseSpec();
     }
 }
