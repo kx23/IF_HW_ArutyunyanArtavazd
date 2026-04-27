@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import pages.components.HeaderComponent;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -28,6 +29,7 @@ public class IssuesSearchPage extends BasePage<IssuesSearchPage> {
         return "/issues";
     }
 
+    @Step("Применить фильтр по типу задачи: Задача")
     public IssuesSearchPage turnOnOnlyTasksFilter()
     {
         issueTypeFilterDropdown.shouldBe(visible).click();
@@ -35,6 +37,7 @@ public class IssuesSearchPage extends BasePage<IssuesSearchPage> {
         return this;
     }
 
+    @Step("Получить общее количество задач в результатах поиска")
     public int getResultsTotalCount() {
 
         $x("//div[@class='issue-table-wrapper']").shouldBe(visible);

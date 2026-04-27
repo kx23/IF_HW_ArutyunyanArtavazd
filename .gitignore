@@ -1,1 +1,97 @@
+# ========================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.idea_modules/
+
+# ========================
+# Maven
+# ========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ========================
+# Java
+# ========================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+
+# ========================
+# Allure
+# ========================
+allure-results/
+allure-report/
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+
+# ========================
+# Test output
+# ========================
+test-output/
+surefire-reports/
+
+# ========================
+# OS
+# ========================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+
+# ========================
+# Environment / Secrets
+# ========================
+.env
+*.properties.local
+config.local.properties
+secrets.properties
+
+# ========================
+# WebDriver binaries
+# ========================
+drivers/
+*.exe
+chromedriver
+geckodriver
+
 src/test/resources/config.properties

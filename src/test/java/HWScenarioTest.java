@@ -126,20 +126,20 @@ public class HWScenarioTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("1. Авторизация в edujira.ifellow.ru")
+    @DisplayName("Авторизация в edujira.ifellow.ru")
     void test1_login() {
         step1_login();
     }
 
     @Test
-    @DisplayName("2. Авторизация + переход в проект Test")
+    @DisplayName("Авторизация + переход в проект Test")
     void test2_navigateToProject() {
         step1_login();
         step2_navigateToProject();
     }
 
     @Test
-    @DisplayName("3. Авторизация + проект + проверка счётчика задач до и после создания")
+    @DisplayName("Авторизация + проект + проверка счётчика задач до и после создания")
     void test3_checkIssueCounter() {
         step1_login();
         step2_navigateToProject();
@@ -150,7 +150,7 @@ public class HWScenarioTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("4. Авторизация + проект + счётчик + проверка статуса и версии TestSeleniumATHomework")
+    @DisplayName("Авторизация + проект + счётчик + проверка статуса и версии TestSeleniumATHomework")
     void test4_checkIssueDetails() {
         step1_login();
         step2_navigateToProject();
@@ -162,7 +162,7 @@ public class HWScenarioTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("5. Полный сценарий: авторизация + проект + счётчик + детали задачи + создание бага + переход по статусам")
+    @DisplayName("Полный сценарий: авторизация + проект + счётчик + детали задачи + создание бага + переход по статусам")
     void test5_fullScenario() {
         step1_login();
         step2_navigateToProject();

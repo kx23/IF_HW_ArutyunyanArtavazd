@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import pages.components.HeaderComponent;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -44,17 +45,20 @@ public class IssueDetailsPage extends BasePage<IssueDetailsPage> {
         return "/browse/"+_issueId;
     }
 
+    @Step("Проверить, что страница задачи открыта")
     public IssueDetailsPage isPageOpened() {
         issueTitle.shouldBe(visible);
         return this;
     }
 
+    @Step("Проверить, что сообщение об успешном изменении задачи отображается")
     public IssueDetailsPage issueSuccessfulChangeMessageIsVisible()
     {
         issueSuccessfulChangeMessage.shouldBe(visible);
         return this;
     }
 
+    @Step("Проверить, что сообщение об успешном изменении задачи не отображается")
     public IssueDetailsPage issueSuccessfulChangeMessageIsNotVisible()
     {
         issueSuccessfulChangeMessage.shouldNotBe(visible);
@@ -62,19 +66,24 @@ public class IssueDetailsPage extends BasePage<IssueDetailsPage> {
     }
 
 
+    @Step("Получить текущий статус задачи")
     public String getStatusText() {
         return issueStatus.shouldBe(visible).getText();
     }
 
+    @Step("Получить версию задачи")
     public String getVersionText() {
         return issueVersion.shouldBe(visible).getText();
     }
 
+    @Step("Изменить статус задачи на 'Выполнено'")
     public IssueDetailsPage changeStatusToDone() {
         issueStatusesListButton.click();
         issueDoneStatusButton.shouldBe(visible).click();
         return this;
     }
+
+    @Step("Изменить статус задачи на 'В работе'")
     public IssueDetailsPage changeStatusToInProgress() {
         issueInProgressStatusButton.shouldBe(visible).click();
         return this;

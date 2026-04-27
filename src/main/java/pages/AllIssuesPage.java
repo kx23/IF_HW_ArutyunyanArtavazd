@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import pages.components.HeaderComponent;
 import pages.components.SidebarComponent;
 
@@ -26,6 +27,8 @@ public class AllIssuesPage extends BasePage<AllIssuesPage> {
         return "/projects/" + projectKey.toUpperCase() + "/issues";
     }
 
+
+    @Step("Перейти на страницу поиска задач и фильтров")
     public void goToIssuesSearchPage()
     {
         issuesSearchPageLink.shouldBe(visible).click();
