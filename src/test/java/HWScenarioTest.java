@@ -9,7 +9,7 @@ import pages.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class HWScenarioTest extends BaseTest {
+public class HWScenarioTest extends WebHooks {
     private static final Logger log = LoggerFactory.getLogger(HWScenarioTest.class);
 
 
@@ -21,10 +21,6 @@ public class HWScenarioTest extends BaseTest {
     private final IssueDetailsPage issueDetailsPage = new IssueDetailsPage();
     private final IssuesSearchPage issuesSearchPage= new IssuesSearchPage();
 
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-    }
 
     private void step1_login() {
         loginPage.open();
