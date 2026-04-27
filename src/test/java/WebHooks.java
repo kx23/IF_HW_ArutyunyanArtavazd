@@ -1,5 +1,6 @@
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,6 +26,7 @@ public class WebHooks {
     }
 
 
+    @Step("Закрыть браузер")
     @AfterEach
     public void tearUp()
     {

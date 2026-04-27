@@ -1,6 +1,7 @@
 package pages.components;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -48,16 +49,19 @@ public class CreateIssueModalComponent {
         }
     }
 
+    @Step("Убедиться, что описание в визуальном режиме")
     public CreateIssueModalComponent ensureDescriptionVisualMode() {
         ensureVisualMode(descriptionVisualTypeButton);
         return this;
     }
 
+    @Step("Убедиться, что окружение в визуальном режиме")
     public CreateIssueModalComponent ensureEnvironmentVisualMode() {
         ensureVisualMode(environmentVisualTypeButton);
         return this;
     }
 
+    @Step("Заполнить тему задачи: {summary}")
     public CreateIssueModalComponent fillSummary(String summary) {
         summaryInput.shouldBe(visible).setValue(summary);
         return this;
@@ -72,18 +76,21 @@ public class CreateIssueModalComponent {
         switchTo().defaultContent();
     }
 
+    @Step("Заполнить описание задачи: {text}")
     public CreateIssueModalComponent fillDescription(String text) {
         ensureDescriptionVisualMode();
         fillTinyMce(descriptionIframe, text);
         return this;
     }
 
+    @Step("Заполнить окружение задачи: {text}")
     public CreateIssueModalComponent fillEnvironment(String text) {
         ensureEnvironmentVisualMode();
         fillTinyMce(environmentIframe, text);
         return this;
     }
 
+    @Step("Выбрать тип задачи: {typeName}")
     public CreateIssueModalComponent selectIssueType(String typeName) {
         issueTypeInput.sendKeys(Keys.chord(Keys.CONTROL, "a"));
         issueTypeInput.sendKeys(Keys.DELETE);
@@ -91,6 +98,7 @@ public class CreateIssueModalComponent {
         return this;
     }
 
+    @Step("Подтвердить создание задачи")
     public void submit() {
         submitButton.shouldBe(visible).click();
     }

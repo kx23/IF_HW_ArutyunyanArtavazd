@@ -1,6 +1,7 @@
 package pages.components;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
@@ -32,33 +33,42 @@ public class HeaderComponent {
     private final SelenideElement successfulCreatedIssueLink=
             $x("//a[@class='issue-created-key issue-link']");
 
+    @Step("Получить имя залогиненного пользователя")
     public String getLoggedInUser() {
         return userAvatar.getAttribute("data-username");
     }
 
+    @Step("Перейти на страницу всех проектов")
     public void goToAllProjects() {
         projectsListButton.click();
         allProjectsLink.shouldBe(visible).click();
     }
 
+    @Step("Открыть модальное окно создания задачи")
     public CreateIssueModalComponent clickCreateIssue() {
         createIssueButton.shouldBe(visible).click();
         return new CreateIssueModalComponent();
     }
 
+    @Step("Ввести в поиск: {taskName}")
     public HeaderComponent searchIssue(String taskName) {
         searchInput.shouldBe(visible).click();
         searchInput.setValue(taskName);
         return this;
     }
 
+    @Step("Открыть задачу из результатов поиска: {taskName}")
     public void openIssueFromSearch(String taskName) {
         getSearchResult(taskName).shouldBe(visible).click();
     }
+
+    @Step("Перейти на страницу созданной задачи")
     public void goToCreatedIssuePage()
     {
         successfulCreatedIssueLink.shouldBe(visible).click();
     }
+
+    @Step("Получить ID созданной задачи")
     public String getSuccessfulCreatedIssueID()
     {
        return successfulCreatedIssueLink.shouldBe(visible).getAttribute("data-issue-key").toString();
