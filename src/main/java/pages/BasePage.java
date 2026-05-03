@@ -1,15 +1,16 @@
 package pages;
 
 import com.codeborne.selenide.Selenide;
-import io.qameta.allure.Step;
+import io.qameta.allure.Allure;
 
 public abstract class BasePage<T extends BasePage<T>> {
 
     protected abstract String getPageUrl();
 
-    @Step("Открыть страницу: {getPageUrl()}")
     public T open() {
-        Selenide.open(getPageUrl());
+        Allure.step("Открыть страницу" , () ->
+                Selenide.open(getPageUrl())
+        );
         return (T) this;
     }
 }

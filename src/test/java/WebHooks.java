@@ -1,5 +1,6 @@
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import utils.AllurePropsReader;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
@@ -20,11 +21,10 @@ public class WebHooks {
 
     @BeforeAll
     public static void setUpAllure() {
-        SelenideLogger.addListener("AllureSelenide",new AllureSelenide().
-                screenshots(true).
-                savePageSource(true));
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(AllurePropsReader.getBoolean("allure.screenshots"))
+                .savePageSource(AllurePropsReader.getBoolean("allure.save.page.source")));
     }
-
 
     @Step("Закрыть браузер")
     @AfterEach

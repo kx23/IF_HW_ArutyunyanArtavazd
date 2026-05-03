@@ -1,8 +1,10 @@
 package data;
 
+import utils.ConfigPropsReader;
+
 public class TestData {
-    public static final String VALID_USER = ConfigReader.get("user.login");
-    public static final String VALID_PASS  = ConfigReader.get("user.password");
+    public static final String VALID_USER = ConfigPropsReader.get("user.login");
+    public static final String VALID_PASS  = ConfigPropsReader.get("user.password");
     public static final String PROJECT_NAME = "Test";
     public static final String TEST_TASK_NAME= "TestSeleniumATHomework";
     public static final String TEST_TASK_STATUS= "СДЕЛАТЬ";
