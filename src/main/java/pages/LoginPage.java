@@ -1,13 +1,16 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Param;
 import io.qameta.allure.Step;
 import io.qameta.allure.model.Parameter;
+import io.qameta.allure.selenide.AllureSelenide;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.SetValueOptions.withText;
 
 public class LoginPage extends BasePage<LoginPage> {
 
@@ -28,8 +31,8 @@ public class LoginPage extends BasePage<LoginPage> {
     }
 
     @Step("Ввести пароль")
-    public LoginPage enterPassword(@Param(mode= Parameter.Mode.MASKED)String password) {
-        passwordInput.setValue(password);
+    public LoginPage enterPassword(@Param(mode= Parameter.Mode.MASKED) String password) {
+        passwordInput.setValue(withText(password).sensitive());
         return this;
     }
 

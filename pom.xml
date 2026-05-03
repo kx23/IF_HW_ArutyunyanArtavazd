@@ -13,8 +13,10 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <aspectj.version>1.9.21</aspectj.version>
+    <aspectj.version>1.9.25.1</aspectj.version>
     <allure.version>2.25.0</allure.version>
+    <maven.compiler.source>25</maven.compiler.source>
+    <maven.compiler.target>25</maven.compiler.target>
   </properties>
 
   <dependencyManagement>
@@ -62,6 +64,13 @@
     <dependency>
       <groupId>io.qameta.allure</groupId>
       <artifactId>allure-selenide</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aeonbits.owner</groupId>
+      <artifactId>owner</artifactId>
+      <version>1.0.12</version>
       <scope>compile</scope>
     </dependency>
 

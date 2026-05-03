@@ -1,14 +1,18 @@
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import utils.AllurePropsReader;
+import config.AllureConfig;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import com.codeborne.selenide.Configuration;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 public class WebHooks {
+
+    protected final static AllureConfig allureConfig=ConfigFactory.create(AllureConfig.class,System.getProperties());
+
 
     @BeforeAll
     public static void setUpAll() {
@@ -22,8 +26,9 @@ public class WebHooks {
     @BeforeAll
     public static void setUpAllure() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(AllurePropsReader.getBoolean("allure.screenshots"))
-                .savePageSource(AllurePropsReader.getBoolean("allure.save.page.source")));
+                .screenshots(allureConfig.screenshots())
+                .includeSelenideSteps(allureConfig.includeSelenideSteps())
+                .savePageSource(allureConfig.savePageSource()));
     }
 
     @Step("Закрыть браузер")
