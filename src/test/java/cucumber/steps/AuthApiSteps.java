@@ -116,7 +116,6 @@ public class AuthApiSteps {
     public void responseStatusIs200AndBodyIs(String expectedBody) {
         ValidatableResponse response = ScenarioContext.get(ScenarioContext.RESPONSE);
         String body = response.statusCode(200).extract().asString();
-        log.info("Response body: {}", body);
         assertEquals(expectedBody, body);
     }
 }

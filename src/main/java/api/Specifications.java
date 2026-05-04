@@ -15,14 +15,14 @@ public class Specifications {
         return new RequestSpecBuilder()
                 .setBaseUri(url)
                 .setContentType(ContentType.JSON)
-                .log(LogDetail.BODY)
+                //.log(LogDetail.BODY)
                 .build();
     }
 
     public static ResponseSpecification baseResponseSpec()
     {
         return new ResponseSpecBuilder()
-                .log(LogDetail.BODY)
+                //.log(LogDetail.BODY)
                 .build();
     }
 }
