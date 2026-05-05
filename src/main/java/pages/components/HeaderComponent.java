@@ -33,7 +33,7 @@ public class HeaderComponent {
     private final SelenideElement successfulCreatedIssueLink=
             $x("//a[@class='issue-created-key issue-link']");
 
-    @Step("Получить имя залогиненного пользователя")
+
     public String getLoggedInUser() {
         return userAvatar.getAttribute("data-username");
     }
@@ -71,7 +71,7 @@ public class HeaderComponent {
     @Step("Получить ID созданной задачи")
     public String getSuccessfulCreatedIssueID()
     {
-       return successfulCreatedIssueLink.shouldBe(visible).getAttribute("data-issue-key").toString();
+        return successfulCreatedIssueLink.shouldBe(visible).getAttribute("data-issue-key").toString();
     }
 
 }

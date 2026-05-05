@@ -2,14 +2,12 @@ package pages;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-import pages.components.HeaderComponent;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class BrowseProjectsPage extends BasePage<BrowseProjectsPage> {
 
-    public final HeaderComponent header = new HeaderComponent();
 
     private final SelenideElement projectsTable =
             $x("//tbody[@class='projects-list']").as("Таблица проектов");

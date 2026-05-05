@@ -10,8 +10,6 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class AllIssuesPage extends BasePage<AllIssuesPage> {
 
-    public final HeaderComponent header = new HeaderComponent();
-    public final SidebarComponent sidebar = new SidebarComponent();
 
     private final String projectKey;
 

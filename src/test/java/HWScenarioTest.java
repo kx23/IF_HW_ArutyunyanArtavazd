@@ -1,222 +1,129 @@
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import config.TestDataConfig;
 import models.enums.IssueStatus;
-import models.enums.IssueType;
 import org.aeonbits.owner.ConfigCache;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pages.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import steps.IssueDetailsSteps;
+import steps.IssueSteps;
+import steps.LoginSteps;
+import steps.ProjectSteps;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HWScenarioTest extends WebHooks {
+
     private static final Logger log = LoggerFactory.getLogger(HWScenarioTest.class);
     private static final TestDataConfig cfg = ConfigCache.getOrCreate(TestDataConfig.class);
 
-    private final LoginPage loginPage = new LoginPage();
-    private final BrowseProjectsPage browseProjectsPage = new BrowseProjectsPage();
-    private final RapidBoardPage rapidBoardPage = new RapidBoardPage();
-    private final AllIssuesPage allIssuesPage = new AllIssuesPage(cfg.projectName());
-    private final IssueDetailsPage issueDetailsPage = new IssueDetailsPage();
-    private final IssuesSearchPage issuesSearchPage = new IssuesSearchPage();
-
+    private final LoginSteps loginSteps = new LoginSteps();
+    private final ProjectSteps projectSteps = new ProjectSteps();
+    private final IssueSteps issueSteps = new IssueSteps();
+    private final IssueDetailsSteps issueDetailsSteps = new IssueDetailsSteps();
 
     @Test
     @DisplayName("Авторизация в edujira.ifellow.ru")
     void test1_login() {
-        loginPage.open();
-        loginPage.login(cfg.userLogin(), cfg.userPassword());
-
-        assertEquals(cfg.userLogin(), rapidBoardPage.header.getLoggedInUser());
+        loginSteps.openLoginPage();
+        loginSteps.login(cfg.userLogin(), cfg.userPassword());
+        loginSteps.verifyUserLoggedIn(cfg.userLogin());
     }
 
     @Test
     @DisplayName("Авторизация + переход в проект Test")
     void test2_navigateToProject() {
-        loginPage.open();
-        loginPage.login(cfg.userLogin(), cfg.userPassword());
+        loginSteps.openLoginPage();
+        loginSteps.login(cfg.userLogin(), cfg.userPassword());
+        loginSteps.verifyUserLoggedIn(cfg.userLogin());
 
-        assertEquals(cfg.userLogin(), rapidBoardPage.header.getLoggedInUser());
-
-        rapidBoardPage.header.goToAllProjects();
-        browseProjectsPage.isPageOpened();
-        browseProjectsPage
-                .searchProject(cfg.projectName())
-                .navigateToProject(cfg.projectName());
-        assertTrue(
-                WebDriverRunner.url().contains(cfg.projectName().toUpperCase()),
-                "URL должен содержать ключ проекта: " + cfg.projectName().toUpperCase()
-        );
+        projectSteps.navigateToProject(cfg.projectName());
+        projectSteps.verifyProjectIsOpened(cfg.projectName());
     }
 
     @Test
     @DisplayName("Авторизация + проект + проверка счётчика задач до и после создания")
     void test3_checkIssueCounter() {
-        loginPage.open();
-        loginPage.login(cfg.userLogin(), cfg.userPassword());
+        loginSteps.openLoginPage();
+        loginSteps.login(cfg.userLogin(), cfg.userPassword());
+        loginSteps.verifyUserLoggedIn(cfg.userLogin());
 
-        assertEquals(cfg.userLogin(), rapidBoardPage.header.getLoggedInUser());
+        projectSteps.navigateToProject(cfg.projectName());
+        projectSteps.verifyProjectIsOpened(cfg.projectName());
 
-        rapidBoardPage.header.goToAllProjects();
-        browseProjectsPage.isPageOpened();
-        browseProjectsPage
-                .searchProject(cfg.projectName())
-                .navigateToProject(cfg.projectName());
-        assertTrue(
-                WebDriverRunner.url().contains(cfg.projectName().toUpperCase()),
-                "URL должен содержать ключ проекта: " + cfg.projectName().toUpperCase()
-        );
+        issueSteps.openTasksList();
+        int countBefore = issueSteps.getTasksCount();
+        log.info("Задач до создания: {}", countBefore);
 
-        rapidBoardPage.sidebar.openAllTasks();
-        allIssuesPage.goToIssuesSearchPage();
-        issuesSearchPage.turnOnOnlyTasksFilter();
-        int count = issuesSearchPage.getResultsTotalCount();
-        log.info("Задач до создания: {}", count);
-        int countBefore = count;
+        issueSteps.createTask(cfg.issueSummary(), cfg.issueDescription());
 
-        issuesSearchPage.header.clickCreateIssue()
-                .selectIssueType(IssueType.TASK.getValue())
-                .fillSummary(cfg.issueSummary())
-                .fillDescription(cfg.issueDescription())
-                .submit();
-
-        int countAfter = issuesSearchPage.getResultsTotalCount();
+        int countAfter = issueSteps.getTasksCount();
         log.info("Задач после создания: {}", countAfter);
 
-        assertEquals(
-                countBefore + 1, countAfter,
-                "Счётчик должен увеличиться на 1: ожидали " + (countBefore + 1) + ", получили " + countAfter
-        );
+        issueSteps.verifyCounterIncreasedByOne(countBefore, countAfter);
     }
 
     @Test
     @DisplayName("Авторизация + проект + счётчик + проверка статуса и версии TestSeleniumATHomework")
     void test4_checkIssueDetails() {
-        loginPage.open();
-        loginPage.login(cfg.userLogin(), cfg.userPassword());
+        loginSteps.openLoginPage();
+        loginSteps.login(cfg.userLogin(), cfg.userPassword());
+        loginSteps.verifyUserLoggedIn(cfg.userLogin());
 
-        assertEquals(cfg.userLogin(), rapidBoardPage.header.getLoggedInUser());
+        projectSteps.navigateToProject(cfg.projectName());
+        projectSteps.verifyProjectIsOpened(cfg.projectName());
 
-        rapidBoardPage.header.goToAllProjects();
-        browseProjectsPage.isPageOpened();
-        browseProjectsPage
-                .searchProject(cfg.projectName())
-                .navigateToProject(cfg.projectName());
-        assertTrue(
-                WebDriverRunner.url().contains(cfg.projectName().toUpperCase()),
-                "URL должен содержать ключ проекта: " + cfg.projectName().toUpperCase()
-        );
-
-        rapidBoardPage.sidebar.openAllTasks();
-        allIssuesPage.goToIssuesSearchPage();
-        issuesSearchPage.turnOnOnlyTasksFilter();
-        int countBefore = issuesSearchPage.getResultsTotalCount();
+        issueSteps.openTasksList();
+        int countBefore = issueSteps.getTasksCount();
         log.info("Задач до создания: {}", countBefore);
 
-        issuesSearchPage.header.clickCreateIssue()
-                .selectIssueType(IssueType.TASK.getValue())
-                .fillSummary(cfg.issueSummary())
-                .fillDescription(cfg.issueDescription())
-                .submit();
+        issueSteps.createTask(cfg.issueSummary(), cfg.issueDescription());
 
-        int countAfter = issuesSearchPage.getResultsTotalCount();
+        int countAfter = issueSteps.getTasksCount();
         log.info("Задач после создания: {}", countAfter);
 
-        assertEquals(
-                countBefore + 1, countAfter,
-                "Счётчик должен увеличиться на 1: ожидали " + (countBefore + 1) + ", получили " + countAfter
-        );
+        issueSteps.verifyCounterIncreasedByOne(countBefore, countAfter);
 
-        issuesSearchPage.header.searchIssue(cfg.testTaskName());
-        issuesSearchPage.header.openIssueFromSearch(cfg.testTaskName());
-
-        issueDetailsPage.isPageOpened();
-
-        assertEquals(IssueStatus.TO_DO.getValue(), issueDetailsPage.getStatusText());
-        assertEquals(cfg.testTaskVersion(), issueDetailsPage.getVersionText());
+        issueSteps.searchAndOpenIssue(cfg.testTaskName());
+        issueDetailsSteps.verifyIssueOpened();
+        issueDetailsSteps.verifyStatus(IssueStatus.TO_DO);
+        issueDetailsSteps.verifyVersion(cfg.testTaskVersion());
     }
 
     @Test
     @DisplayName("Полный сценарий: авторизация + проект + счётчик + детали задачи + создание бага + переход по статусам")
     void test5_fullScenario() {
-        loginPage.open();
-        loginPage.login(cfg.userLogin(), cfg.userPassword());
+        loginSteps.openLoginPage();
+        loginSteps.login(cfg.userLogin(), cfg.userPassword());
+        loginSteps.verifyUserLoggedIn(cfg.userLogin());
 
-        assertEquals(cfg.userLogin(), rapidBoardPage.header.getLoggedInUser());
+        projectSteps.navigateToProject(cfg.projectName());
+        projectSteps.verifyProjectIsOpened(cfg.projectName());
 
-        rapidBoardPage.header.goToAllProjects();
-        browseProjectsPage.isPageOpened();
-        browseProjectsPage
-                .searchProject(cfg.projectName())
-                .navigateToProject(cfg.projectName());
-        assertTrue(
-                WebDriverRunner.url().contains(cfg.projectName().toUpperCase()),
-                "URL должен содержать ключ проекта: " + cfg.projectName().toUpperCase()
-        );
-
-        rapidBoardPage.sidebar.openAllTasks();
-        allIssuesPage.goToIssuesSearchPage();
-        issuesSearchPage.turnOnOnlyTasksFilter();
-        int countBefore = issuesSearchPage.getResultsTotalCount();
+        issueSteps.openTasksList();
+        int countBefore = issueSteps.getTasksCount();
         log.info("Задач до создания: {}", countBefore);
 
-        issuesSearchPage.header.clickCreateIssue()
-                .selectIssueType(IssueType.TASK.getValue())
-                .fillSummary(cfg.issueSummary())
-                .fillDescription(cfg.issueDescription())
-                .submit();
+        issueSteps.createTask(cfg.issueSummary(), cfg.issueDescription());
 
-        int countAfter = issuesSearchPage.getResultsTotalCount();
+        int countAfter = issueSteps.getTasksCount();
         log.info("Задач после создания: {}", countAfter);
 
-        assertEquals(
-                countBefore + 1, countAfter,
-                "Счётчик должен увеличиться на 1: ожидали " + (countBefore + 1) + ", получили " + countAfter
+        issueSteps.verifyCounterIncreasedByOne(countBefore, countAfter);
+
+        issueSteps.searchAndOpenIssue(cfg.testTaskName());
+        issueDetailsSteps.verifyIssueOpened();
+        issueDetailsSteps.verifyStatus(IssueStatus.TO_DO);
+        issueDetailsSteps.verifyVersion(cfg.testTaskVersion());
+
+        String newIssueId = issueSteps.createBugAndNavigate(
+                cfg.issueSummary(), cfg.issueDescription(), cfg.issueEnvironment()
         );
+        issueDetailsSteps.verifyNewIssueUrl(newIssueId);
+        issueDetailsSteps.verifyStatus(IssueStatus.TO_DO);
 
-        issuesSearchPage.header.searchIssue(cfg.testTaskName());
-        issuesSearchPage.header.openIssueFromSearch(cfg.testTaskName());
+        issueDetailsSteps.changeStatusToInProgress();
+        issueDetailsSteps.verifyStatus(IssueStatus.IN_PROGRESS);
 
-        issueDetailsPage.isPageOpened();
-
-        assertEquals(IssueStatus.TO_DO.getValue(), issueDetailsPage.getStatusText());
-        assertEquals(cfg.testTaskVersion(), issueDetailsPage.getVersionText());
-
-        issueDetailsPage.header.clickCreateIssue()
-                .selectIssueType(IssueType.BUG.getValue())
-                .ensureDescriptionVisualMode()
-                .ensureEnvironmentVisualMode()
-                .fillSummary(cfg.issueSummary())
-                .fillDescription(cfg.issueDescription())
-                .fillEnvironment(cfg.issueEnvironment())
-                .submit();
-
-        String newIssueId = issueDetailsPage.header.getSuccessfulCreatedIssueID();
-
-        issueDetailsPage.header.goToCreatedIssuePage();
-
-        assertTrue(
-                WebDriverRunner.url().contains(newIssueId),
-                "Url не содержит id созданной задачи"
-        );
-
-        assertEquals(IssueStatus.TO_DO.getValue(), issueDetailsPage.getStatusText());
-
-        issueDetailsPage
-                .issueSuccessfulChangeMessageIsNotVisible()
-                .changeStatusToInProgress()
-                .issueSuccessfulChangeMessageIsVisible();
-
-        assertEquals(IssueStatus.IN_PROGRESS.getValue(), issueDetailsPage.getStatusText());
-
-        issueDetailsPage
-                .issueSuccessfulChangeMessageIsNotVisible()
-                .changeStatusToDone()
-                .issueSuccessfulChangeMessageIsVisible();
-
-        assertEquals(IssueStatus.DONE.getValue(), issueDetailsPage.getStatusText());
+        issueDetailsSteps.changeStatusToDone();
+        issueDetailsSteps.verifyStatus(IssueStatus.DONE);
     }
 }

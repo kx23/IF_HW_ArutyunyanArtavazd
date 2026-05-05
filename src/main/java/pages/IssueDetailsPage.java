@@ -2,15 +2,11 @@ package pages;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-import pages.components.HeaderComponent;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class IssueDetailsPage extends BasePage<IssueDetailsPage> {
-
-
-    public final HeaderComponent header = new HeaderComponent();
 
     private final SelenideElement issueTitle =
             $x("//*[@id='summary-val']").as("Заголовок задачи");
