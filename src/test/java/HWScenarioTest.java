@@ -9,7 +9,6 @@ import steps.IssueSteps;
 import steps.LoginSteps;
 import steps.ProjectSteps;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HWScenarioTest extends WebHooks {
 
     private static final Logger log = LoggerFactory.getLogger(HWScenarioTest.class);
