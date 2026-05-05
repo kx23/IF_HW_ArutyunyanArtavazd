@@ -16,8 +16,8 @@ public class ApiHooks {
     @BeforeAll
     public static void setUpAllure() {
         RestAssured.replaceFiltersWith(
-                new RequestLoggingFilter(LogDetail.BODY),
-                new ResponseLoggingFilter(LogDetail.BODY),
+                //new RequestLoggingFilter(LogDetail.BODY),
+                //new ResponseLoggingFilter(LogDetail.BODY),
                 new AllureRestAssured()
                         .setRequestTemplate("request.ftl")
                         .setResponseTemplate("response.ftl")
