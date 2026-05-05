@@ -7,6 +7,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.qameta.allure.Allure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import steps.rickAndMorty.CharacterSteps;
@@ -75,15 +76,30 @@ public class RickAndMortySteps {
 
     @Then("детали последнего персонажа залогированы и сравнены с {string}")
     public void lastCharacterDetailsAreLoggedAndComparedTo(String characterName) {
+
         Character original = ScenarioContext.get(ScenarioContext.CHARACTER);
         Character lastChar  = ScenarioContext.get(ScenarioContext.LAST_CHAR);
 
-        log.info("Same species as {}: {}", characterName,
-                original.getSpecies().equals(lastChar.getSpecies()));
-        log.info("Same location as {}: {}", characterName,
-                original.getLocation().getName().equals(lastChar.getLocation().getName()));
+        compareCharacters(original, lastChar, characterName);
     }
 
+    private void compareCharacters(Character original, Character lastChar, String characterName) {
+
+        Allure.step("Сравнение персонажей с " + characterName, step -> {
+
+            boolean sameSpecies = original.getSpecies().equals(lastChar.getSpecies());
+            boolean sameLocation = original.getLocation().getName()
+                    .equals(lastChar.getLocation().getName());
+
+            String result = "sameSpecies=" + sameSpecies +
+                    "\nsameLocation=" + sameLocation;
+
+            Allure.addAttachment("Comparison result", result);
+
+            log.info("Same species as {}: {}", characterName, sameSpecies);
+            log.info("Same location as {}: {}", characterName, sameLocation);
+        });
+    }
 
     private long extractId(String url) {
         String[] parts = url.split("/");
