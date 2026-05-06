@@ -18,6 +18,67 @@
 
 ---
 
+## Структура проекта
+
+```
+src
++---main
+|   \---java
+|       +---config
+|       |       AllureConfig.java
+|       |       SelenideConfig.java
+|       |       TestDataConfig.java
+|       |
+|       +---models
+|       |   \---enums
+|       |           IssueStatus.java
+|       |           IssueType.java
+|       |
+|       +---pages
+|       |   |   AllIssuesPage.java
+|       |   |   BasePage.java
+|       |   |   BrowseProjectsPage.java
+|       |   |   IssueDetailsPage.java
+|       |   |   IssuesSearchPage.java
+|       |   |   LoginPage.java
+|       |   |   RapidBoardPage.java
+|       |   |
+|       |   \---components
+|       |           CreateIssueModalComponent.java
+|       |           HeaderComponent.java
+|       |           SidebarComponent.java
+|       |
+|       \---steps
+|               IssueDetailsSteps.java
+|               IssueSteps.java
+|               LoginSteps.java
+|               ProjectSteps.java
+|
+\---test
+    +---java
+    |       HWScenarioTest.java
+    |       WebHooks.java
+    |
+    \---resources
+            allure.properties
+            config.properties
+            junit-platform.properties
+            logback.xml
+            selenide.properties
+```
+
+| Пакет / папка        | Содержимое                                             |
+|----------------------|--------------------------------------------------------|
+| `config`             | Классы конфигурации: Selenide, Allure, тестовые данные |
+| `models/enums`       | Перечисления для статусов и типов задач                |
+| `pages`              | Page Object классы для каждой страницы приложения      |
+| `pages/components`   | Переиспользуемые компоненты страниц                    |
+| `steps`              | Step-классы для группировки бизнес-логики тестов       |
+| `test/java`          | Тестовые классы и хуки                                 |
+| `test/resources`     | Файлы конфигурации                                     |
+
+---
+
 ## Структура конфигурационных файлов
 
 Все файлы конфигурации находятся в `src/test/resources/`.
@@ -44,16 +105,16 @@ issue.description=Test task description
 issue.environment=Test task environment
 ```
 
-| Ключ                | Описание                                              |
-|---------------------|-------------------------------------------------------|
-| `user.login`        | Логин пользователя для входа в EduJira               |
-| `user.password`     | Пароль пользователя                                  |
-| `project.name`      | Ключ проекта (используется в URL и поиске)           |
-| `test.task.name`    | Имя существующей задачи для проверки деталей         |
-| `test.task.version` | Ожидаемая версия этой задачи                         |
-| `issue.summary`     | Тема создаваемой задачи/бага                         |
-| `issue.description` | Описание создаваемой задачи/бага                     |
-| `issue.environment` | Окружение (заполняется только при создании бага)     |
+| Ключ                | Описание                                     |
+|---------------------|----------------------------------------------|
+| `user.login`        | Логин пользователя для входа в EduJira       |
+| `user.password`     | Пароль пользователя                          |
+| `project.name`      | Ключ проекта (используется в URL и поиске)   |
+| `test.task.name`    | Имя существующей задачи для проверки деталей |
+| `test.task.version` | Ожидаемая версия этой задачи                 |
+| `issue.summary`     | Тема создаваемой задачи/бага                 |
+| `issue.description` | Описание создаваемой задачи/бага             |
+| `issue.environment` | Окружение                                    |
 
 ---
 
