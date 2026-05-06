@@ -74,7 +74,7 @@ public class RickAndMortySteps {
         ScenarioContext.put(ScenarioContext.LAST_CHAR, lastChar);
     }
 
-    @Then("детали последнего персонажа залогированы и сравнены с {string}")
+    @Then("детали последнего персонажа сравнены с {string}")
     public void lastCharacterDetailsAreLoggedAndComparedTo(String characterName) {
 
         Character original = ScenarioContext.get(ScenarioContext.CHARACTER);
