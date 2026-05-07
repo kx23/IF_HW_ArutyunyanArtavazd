@@ -26,6 +26,7 @@ src
 |   \---java
 |       +---config
 |       |       AllureConfig.java
+|       |       ConfigProvider.java
 |       |       SelenideConfig.java
 |       |       TestDataConfig.java
 |       |
@@ -123,14 +124,14 @@ issue.environment=Test task environment
 ```properties
 selenide.baseUrl=https://edujira.ifellow.ru
 selenide.browser=chrome
-selenide.timeout=10000
+selenide.timeout=16000
 ```
 
-| Ключ                | Описание                                             |
-|---------------------|------------------------------------------------------|
-| `selenide.baseUrl`  | Базовый URL тестируемого приложения                 |
-| `selenide.browser`  | Браузер для запуска (`chrome`, `firefox`, `edge`)   |
-| `selenide.timeout`  | Таймаут ожидания элементов в миллисекундах  |
+| Ключ                | Описание                                   |
+|---------------------|--------------------------------------------|
+| `selenide.baseUrl`  | Базовый URL тестируемого приложения        |
+| `selenide.browser`  | Браузер для запуска                        |
+| `selenide.timeout`  | Таймаут ожидания элементов в миллисекундах |
 
 ---
 
@@ -155,7 +156,7 @@ allure.save.page.source=false
 ### `junit-platform.properties` — настройки выполнения тестов
 
 ```properties
-junit.jupiter.execution.parallel.enabled=true
+junit.jupiter.execution.parallel.enabled=false
 junit.jupiter.execution.parallel.mode.default=concurrent
 junit.jupiter.execution.timeout.default=60s
 ```
