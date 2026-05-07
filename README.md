@@ -53,6 +53,7 @@ src/
         │   └── RickAndMorty.feature
         ├── config.properties
         ├── allure.properties
+        ├── junit-platform.properties
         └── tpl/              
 ```
 
@@ -72,11 +73,24 @@ ifellow.base_url=http://localhost:8080/api
 | `rickandmorty.base_url` | Базовый URL публичного Rick and Morty API |
 | `ifellow.base_url`      | Базовый URL iFellow Auth API              |
 
+---
+
+### `junit-platform.properties` — настройки Cucumber и плагинов
+
+```properties
+cucumber.plugin=pretty,io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm
+cucumber.glue=cucumber.steps,hooks
+```
+
+
+| Ключ               | Описание                                      |
+|--------------------|-----------------------------------------------|
+| `cucumber.plugin`  | Подключаемые плагины (pretty, Allure и др.)   |
+| `cucumber.glue`    | Пакеты со степ-дефинишнами и хуками           |
 
 ---
 
 ### `Credentials.json` — учётные данные
-
 
 ```json
 {
@@ -85,7 +99,6 @@ ifellow.base_url=http://localhost:8080/api
 }
 ```
 
-> **Внимание:** файл содержит чувствительные данные — добавь его в `.gitignore` и не коммить в репозиторий.
 
 ---
 
@@ -140,6 +153,10 @@ mvn clean test -Dcucumber.filter.tags=@Auth
 mvn clean test -Dcucumber.filter.tags=@RickAndMorty
 ```
 
+Запуск через раннер (из IntelliJ IDEA):
+
+Откройте класс `CucumberApiRunnerTest.java` и нажмите ▶ рядом с объявлением класса.
+
 ---
 
 ## Allure-отчёт
@@ -157,3 +174,4 @@ mvn allure:report
 ```bash
 mvn allure:serve
 ```
+

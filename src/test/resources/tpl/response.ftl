@@ -4,7 +4,9 @@
 <#if data.body??>
     <h4>Body</h4>
     <div><pre class="preformated-text">
-<#assign safeBody = data.body?replace("\"password\"\\s*:\\s*\"[^\"]*\"", "\"password\":\"****\"", "r")>
+<#assign safeBody = data.body
+    ?replace("\"password\"\\s*:\\s*\"[^\"]*\"", "\"password\":\"****\"", "r")
+    ?replace("token\\s*:\\s*[\\w\\-]+", "token : ****", "r")>
 ${safeBody}
     </pre></div>
 </#if>

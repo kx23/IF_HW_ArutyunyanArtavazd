@@ -19,7 +19,6 @@ public class ScenarioContext {
         store.get().put(key, value);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T get(String key) {
         return (T) store.get().get(key);
     }

@@ -9,7 +9,7 @@ public class EpisodeSteps {
 
     private final EpisodeRMApi episodeApi = new EpisodeRMApi();
 
-    @Step("Get episode by ID: {id}")
+    @Step("Получить эпизод по ID: {id}")
     public Episode getEpisodeById(long id) {
         return episodeApi.getEpisode(id)
                 .statusCode(HttpStatus.SC_OK)

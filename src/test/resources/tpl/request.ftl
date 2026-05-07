@@ -9,20 +9,24 @@ ${safeBody}
     </pre></div>
 </#if>
 
-<#if (data.headers)?has_content>
-    <h4>Headers</h4>
-    <div>
-        <#list data.headers as name, value>
-            <div>${name}: ${value!"null"}</div>
-        </#list>
-    </div>
-</#if>
-
 <#if (data.cookies)?has_content>
     <h4>Cookies</h4>
     <div>
         <#list data.cookies as name, value>
             <div>${name}: ${value!"null"}</div>
+        </#list>
+    </div>
+</#if>
+
+<#if (data.headers)?has_content>
+    <h4>Headers</h4>
+    <div>
+        <#list data.headers as name, value>
+            <#if name?lower_case == "authorization">
+                <div>${name}: ****</div>
+            <#else>
+                <div>${name}: ${value!"null"}</div>
+            </#if>
         </#list>
     </div>
 </#if>
