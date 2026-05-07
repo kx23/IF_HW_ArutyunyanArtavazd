@@ -27,7 +27,6 @@ src
 |       +---config
 |       |       AllureConfig.java
 |       |       ConfigProvider.java
-|       |       SelenideConfig.java
 |       |       TestDataConfig.java
 |       |
 |       +---models
