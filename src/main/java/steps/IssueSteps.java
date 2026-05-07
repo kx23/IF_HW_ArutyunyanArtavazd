@@ -1,9 +1,9 @@
 package steps;
 
+import config.ConfigProvider;
 import config.TestDataConfig;
 import io.qameta.allure.Step;
 import models.enums.IssueType;
-import org.aeonbits.owner.ConfigCache;
 import pages.AllIssuesPage;
 import pages.IssuesSearchPage;
 import pages.RapidBoardPage;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IssueSteps {
 
-    private static final TestDataConfig cfg = ConfigCache.getOrCreate(TestDataConfig.class);
+    private static final TestDataConfig cfg = ConfigProvider.testDataConfig;
 
     private final RapidBoardPage rapidBoardPage = new RapidBoardPage();
     private final AllIssuesPage allIssuesPage = new AllIssuesPage(cfg.projectName());

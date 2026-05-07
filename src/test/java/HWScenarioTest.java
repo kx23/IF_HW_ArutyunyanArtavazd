@@ -1,6 +1,6 @@
+import config.ConfigProvider;
 import config.TestDataConfig;
 import models.enums.IssueStatus;
-import org.aeonbits.owner.ConfigCache;
 import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,7 @@ import steps.ProjectSteps;
 public class HWScenarioTest extends WebHooks {
 
     private static final Logger log = LoggerFactory.getLogger(HWScenarioTest.class);
-    private static final TestDataConfig cfg = ConfigCache.getOrCreate(TestDataConfig.class);
+    private static final TestDataConfig cfg = ConfigProvider.testDataConfig;
 
     private final LoginSteps loginSteps = new LoginSteps();
     private final ProjectSteps projectSteps = new ProjectSteps();

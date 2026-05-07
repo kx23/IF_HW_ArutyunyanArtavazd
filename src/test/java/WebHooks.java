@@ -1,6 +1,7 @@
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import config.AllureConfig;
+import config.ConfigProvider;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
@@ -11,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class WebHooks {
 
-    protected final static AllureConfig allureConfig=ConfigFactory.create(AllureConfig.class,System.getProperties());
+    protected final static AllureConfig allureConfig= ConfigProvider.allureConfig;
 
 
     @BeforeAll
