@@ -94,4 +94,5 @@ drivers/
 chromedriver
 geckodriver
 
-src/test/resources/config.properties
+build/
+.allure/

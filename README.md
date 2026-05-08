@@ -88,18 +88,13 @@ src
 Учётные данные, название проекта и данные для создания задач.
 
 ```properties
-# Credentials
 user.login=AT1
 user.password=Qwerty123
 
-# Project
 project.name=Test
-
-# Test task (существующая задача для проверки статуса и версии)
 test.task.name=TestSeleniumATHomework
 test.task.version=Version 2.0
 
-# Issue creation (данные для создания новых задач в тестах)
 issue.summary=Test task summary
 issue.description=Test task description
 issue.environment=Test task environment
